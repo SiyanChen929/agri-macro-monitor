@@ -1,0 +1,95 @@
+system:
+  name: Agricultural Macro Quantitative Regime Monitor
+  version: "0.1.0"
+
+includes:
+  assets: config/assets.yaml
+  data_sources: config/data_sources.yaml
+  regime_thresholds: config/regime_thresholds.yaml
+  catalysts: config/catalysts.yaml
+
+paths:
+  data_dir: data
+  raw_dir: data/raw
+  processed_dir: data/processed
+  cache_dir: data/cache
+  reports_dir: reports
+
+runtime:
+  mode: demo
+  start_date: "2010-01-01"
+  end_date: null
+  calendar: B
+  decision_time_utc: "23:59:59"
+  random_seed: 42
+  strict_point_in_time: true
+  warmup_business_days: 504
+
+quality:
+  warning_score: 85.0
+  failure_score: 60.0
+  min_critical_coverage: 0.80
+  abnormal_jump_z: 8.0
+  stale_penalty: 4.0
+  error_penalty: 12.0
+  warning_penalty: 3.0
+
+features:
+  rolling_windows: [5, 20, 60, 120]
+  zscore_windows: [60, 252]
+  winsor_quantiles: [0.01, 0.99]
+  minimum_periods_fraction: 0.60
+  include_data_age: true
+
+factors:
+  normalization: robust_zscore
+  normalization_window: 252
+  min_periods: 20
+  history_lag: 0
+  winsor_limits: [0.01, 0.99]
+  z_clip: 4.0
+  wheat_momentum_window: 60
+
+models:
+  statistical_regime:
+    min_train_size: 252
+    min_class_observations: 10
+    refit_every: 63
+    max_iter: 180
+  transitions:
+    horizons:
+      1w: 5
+      1m: 21
+      3m: 63
+    min_train_size: 252
+    min_class_observations: 10
+    refit_every: 63
+    max_iter: 160
+
+backtest:
+  execution_lag_days: 1
+  rebalance_frequency: weekly
+  annualization_days: 252
+  initial_capital: 1000000
+  transaction_cost_bps: 5.0
+  slippage_bps: 2.0
+  futures_roll_cost_bps: 3.0
+
+portfolio:
+  target_volatility: 0.10
+  max_gross_leverage: 1.50
+  max_position_weight: 0.25
+  max_asset_class_weight: 0.60
+  drawdown_controls:
+    - threshold: -0.05
+      risk_multiplier: 0.80
+    - threshold: -0.10
+      risk_multiplier: 0.50
+    - threshold: -0.15
+      risk_multiplier: 0.20
+
+risk:
+  signal_stop_threshold: 0.05
+  signal_stop_multiplier: 0.0
+  regime_stop_multiplier: 0.0
+  regime_stop_expectations: {}

@@ -1,0 +1,65 @@
+asset_groups:
+  grains:
+    wheat:
+      ticker: "ZW=F"
+      label: CBOT Wheat
+      instrument_type: future
+      currency: USD
+      contract_multiplier: 5000
+    corn:
+      ticker: "ZC=F"
+      label: CBOT Corn
+      instrument_type: future
+      currency: USD
+      contract_multiplier: 5000
+    soybeans:
+      ticker: "ZS=F"
+      label: CBOT Soybeans
+      instrument_type: future
+      currency: USD
+      contract_multiplier: 5000
+  energy:
+    natural_gas:
+      ticker: "NG=F"
+      label: Henry Hub Natural Gas
+      instrument_type: future
+      currency: USD
+      contract_multiplier: 10000
+    oil:
+      ticker: "CL=F"
+      label: WTI Crude Oil
+      instrument_type: future
+      currency: USD
+      contract_multiplier: 1000
+  fertilizer_equities:
+    cf:
+      ticker: CF
+      label: CF Industries
+      instrument_type: equity
+      currency: USD
+    ntr:
+      ticker: NTR
+      label: Nutrien
+      instrument_type: equity
+      currency: USD
+    mos:
+      ticker: MOS
+      label: Mosaic
+      instrument_type: equity
+      currency: USD
+  macro:
+    dxy:
+      ticker: "DX-Y.NYB"
+      label: US Dollar Index
+      instrument_type: index
+      currency: USD
+
+relative_value_pairs:
+  - [wheat, cf]
+  - [corn, cf]
+  - [cf, natural_gas]
+  - [cf, ntr]
+  - [ntr, mos]
+  - [wheat, corn]
+  - [wheat, dxy]
+

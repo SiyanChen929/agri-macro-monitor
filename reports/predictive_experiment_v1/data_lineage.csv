@@ -1,0 +1,4 @@
+dataset,provider,quality,path,sha256,rows,first_date,last_date,failures
+market_prices,Yahoo chart,vendor_continuous_proxy_not_contract_level,raw/yahoo_grain_continuous.csv.gz,b574af63158cf36a86db1f1116465b428e744370c1e7abad1e32b74fdc3fe4c8,4439,2009-01-02T00:00:00,2026-08-27T00:00:00,
+weather,NOAA NCEI Daily Summaries,official_observations_conservative_3d_lag,raw/noaa_crop_belt_daily.csv,38e00ad3213ae9382f3103bf6b7422c3b2d026148896b0ce2060004c5808066a,19335,2009-01-01T00:00:00,2026-08-24T00:00:00,
+usda_wasde,USDA WAOB historical WASDE; pinned archive replay fallback,official_as_published_csvs_validated_headers_and_hashes,raw/usda_wasde,dcc52f24b5f5f70c8ea190be7b148fd1eef67113a7d89b43d82a049620f86227,582,2010-04-09T00:00:00,2026-08-12T00:00:00,2013-10: no release found in acquired official files; 2019-01: no release found in acquired official files; 2025-10: unavailable

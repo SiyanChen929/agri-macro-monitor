@@ -1,0 +1,156 @@
+experiment:
+  id: zw_zc_zs_21d_v1
+  status: preregistered_exploratory
+  preregistered_at: "2026-08-29T16:45:00-04:00"
+  pre_holdout_amendments:
+    - date: "2026-08-29"
+      reason: >-
+        Data-lineage audit before the holdout was opened replaced the broad
+        return-threshold proxy repair with deterministic delivery-month anchor
+        sessions and made the frozen design exactly executable.
+      scope:
+        - removed_underdefined_interaction_features
+        - enforced_exact_feature_and_model_registry
+        - added_global_cross_asset_development_selection_cutoff
+        - locked_primary_development_family_across_proxy_variants
+        - restricted_cost_evidence_to_holdout_only_common_asset_intersection
+        - bound_roll_costs_to_exact_anchor_sessions
+        - preregistered_explicit_exploratory_support_gate
+      raw_inputs_inspected_for_data_quality: true
+      model_results_or_holdout_metrics_inspected: false
+      amendment_basis: contract_calendar_mechanics_not_predictive_performance
+  start_date: "2009-01-01"
+  as_of_date: "2026-08-28"
+  assets:
+    ZW:
+      yahoo_symbol: "ZW=F"
+      commodity: "Wheat"
+      crop_year_start_month: 6
+    ZC:
+      yahoo_symbol: "ZC=F"
+      commodity: "Corn"
+      crop_year_start_month: 9
+    ZS:
+      yahoo_symbol: "ZS=F"
+      commodity: "Oilseed, Soybean"
+      crop_year_start_month: 9
+
+target:
+  name: next_session_21_session_futures_return
+  horizon_sessions: 21
+  execution_lag_sessions: 1
+  decision_frequency: "W-FRI"
+  subtract_costs_from_regression_label: false
+
+validation:
+  minimum_training_crop_years: 5
+  minimum_weekly_observations_per_crop_year: 40
+  embargo_business_days: 5
+  locked_holdout_crop_years: 3
+  minimum_feature_coverage: 0.60
+  winsor_lower_quantile: 0.01
+  winsor_upper_quantile: 0.99
+  ridge_alphas: [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0]
+  random_seed: 42
+  primary_metric: pooled_oos_r2_vs_fold_historical_mean
+  feature_family_selection_data: development_only
+  holdout_models:
+    - historical_mean
+    - seasonality
+    - momentum_60
+    - ridge_core
+    - development_selected_ridge
+
+feature_families:
+  core:
+    - annual_sin
+    - annual_cos
+    - semiannual_sin
+    - semiannual_cos
+    - crop_year_fraction
+    - momentum_5
+    - momentum_20
+    - momentum_60
+    - momentum_120
+    - realized_volatility_20
+    - realized_volatility_60
+    - ma_distance_20
+    - ma_distance_60
+    - cross_grain_momentum_20
+    - cross_grain_momentum_60
+    - relative_momentum_20
+    - relative_momentum_60
+  usda:
+    - us_production_revision
+    - us_yield_revision
+    - us_ending_stocks_revision
+    - world_production_revision
+    - world_ending_stocks_revision
+    - us_stocks_to_use_revision
+    - us_stocks_to_use
+    - days_since_usda_release
+  weather:
+    - temperature_anomaly_14d
+    - precipitation_anomaly_30d
+    - heat_stress_days_14d
+    - growing_season_temperature_anomaly
+    - growing_season_precipitation_anomaly
+
+data_contract:
+  market:
+    provider: yahoo_chart
+    quality: vendor_continuous_proxy
+    confirmatory_eligible: false
+    primary_proxy_treatment: delivery_month_anchor_return_neutralized
+    roll_gap_rule:
+      session_rule: first_valid_session_on_or_after
+      anchor_day: 15
+      maximum_calendar_day: 21
+      ZW_contract_months: [3, 5, 7, 9, 12]
+      ZC_contract_months: [3, 5, 7, 9, 12]
+      ZS_contract_months: [1, 3, 5, 7, 8, 9, 11]
+      replacement_return: 0.0
+    required_sensitivity: raw_vendor_stitched_prices
+  usda:
+    provider: USDA_WAOB_historical_WASDE
+    availability: consolidated_historical_csv_on_calendar_day_after_report
+    first_tradable: first_market_session_after_csv_availability
+  weather:
+    provider: NOAA_NCEI_daily_summaries
+    assumed_publication_lag_calendar_days: 3
+    aggregation: preregistered_crop_region_station_baskets
+
+portfolio:
+  position_rule: tanh_forecast_over_training_target_volatility
+  holdout_calendar: common_intersection_all_assets
+  maximum_asset_weight: 0.3333333333333333
+  maximum_gross_exposure: 1.0
+  rebalance_frequency: weekly
+  execution_lag_sessions: 1
+  transaction_cost_bps_one_way: 5.0
+  slippage_bps_one_way: 2.0
+  commission_bps_one_way: 0.0
+  futures_roll_cost_bps: 3.0
+  roll_cost_timing: exact_preregistered_anchor_sessions
+  cost_sensitivity_multipliers: [1.0, 1.5, 2.0]
+
+selection_rule:
+  baseline_ridge_family: ridge_core
+  proxy_variant_selection_scope: primary_development_locked_for_all_variants
+  candidate_order:
+    - ridge_core_usda
+    - ridge_core_weather
+    - ridge_core_usda_weather
+  require_positive_pooled_oos_r2_improvement: true
+  require_asset_improvement_count: 2
+  require_majority_crop_year_fold_improvement: true
+  otherwise_select: ridge_core
+
+claim_policy:
+  exploratory_only_because_continuous_proxy: true
+  validated_predictive_edge_requires_contract_level_rerun: true
+  do_not_tune_after_holdout_open: true
+  exploratory_support_gate:
+    primary_holdout_oos_r2_strictly_above: 0.0
+    raw_sensitivity_holdout_oos_r2_strictly_above: 0.0
+    primary_holdout_1x_annualized_net_return_strictly_above: 0.0

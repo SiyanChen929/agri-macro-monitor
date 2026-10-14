@@ -1,0 +1,216 @@
+sources:
+  demo:
+    adapter: demo
+    enabled: true
+    live: false
+    description: Deterministic synthetic vintages for offline execution and tests
+  yahoo:
+    adapter: yahoo_chart
+    enabled: true
+    live: true
+    base_url: "https://query1.finance.yahoo.com/v8/finance/chart"
+    timeout_seconds: 20
+    availability_time_utc: "23:00:00"
+  fred:
+    adapter: fred
+    enabled: true
+    live: true
+    base_url: "https://api.stlouisfed.org/fred/series/observations"
+    api_key_env: FRED_API_KEY
+    timeout_seconds: 20
+    availability_time_utc: "22:00:00"
+  local_csv:
+    adapter: csv
+    enabled: true
+    live: true
+    description: User-supplied canonical or date/value CSV for licensed and proprietary feeds
+
+# series_id is also the canonical column name in the aligned daily wide frame.
+series:
+  wheat:
+    source: yahoo
+    source_id: "ZW=F"
+    frequency: daily
+    unit: USD/bushel
+    publication_lag_days: 0
+    max_staleness_days: 4
+    critical: true
+    min_value: 0
+    max_value: 30
+    max_abs_daily_return: 0.35
+    price_scale: 0.01
+    description: CBOT wheat continuous futures proxy
+  corn:
+    source: yahoo
+    source_id: "ZC=F"
+    frequency: daily
+    unit: USD/bushel
+    publication_lag_days: 0
+    max_staleness_days: 4
+    critical: true
+    min_value: 0
+    max_value: 20
+    max_abs_daily_return: 0.35
+    price_scale: 0.01
+    description: CBOT corn continuous futures proxy
+  soybeans:
+    source: yahoo
+    source_id: "ZS=F"
+    frequency: daily
+    unit: USD/bushel
+    publication_lag_days: 0
+    max_staleness_days: 4
+    critical: true
+    min_value: 0
+    max_value: 50
+    max_abs_daily_return: 0.35
+    price_scale: 0.01
+    description: CBOT soybean continuous futures proxy
+  natural_gas:
+    source: yahoo
+    source_id: "NG=F"
+    frequency: daily
+    unit: USD/mmBtu
+    publication_lag_days: 0
+    max_staleness_days: 4
+    critical: true
+    min_value: 0
+    max_value: 50
+    max_abs_daily_return: 0.60
+    description: Henry Hub natural gas continuous futures proxy
+  urea:
+    source: demo
+    source_id: urea
+    frequency: weekly
+    unit: USD/metric_ton
+    publication_lag_days: 2
+    max_staleness_days: 10
+    critical: true
+    min_value: 0
+    max_value: 2000
+    description: Granular urea price proxy; replace demo with licensed/local feed in live use
+  cf:
+    source: yahoo
+    source_id: CF
+    frequency: daily
+    unit: USD/share
+    publication_lag_days: 0
+    max_staleness_days: 4
+    critical: false
+    min_value: 0
+    max_value: 1000
+    max_abs_daily_return: 0.50
+    description: CF Industries adjusted close proxy
+  ntr:
+    source: yahoo
+    source_id: NTR
+    frequency: daily
+    unit: USD/share
+    publication_lag_days: 0
+    max_staleness_days: 4
+    critical: false
+    min_value: 0
+    max_value: 1000
+    max_abs_daily_return: 0.50
+    description: Nutrien adjusted close proxy
+  mos:
+    source: yahoo
+    source_id: MOS
+    frequency: daily
+    unit: USD/share
+    publication_lag_days: 0
+    max_staleness_days: 4
+    critical: false
+    min_value: 0
+    max_value: 1000
+    max_abs_daily_return: 0.50
+    description: Mosaic adjusted close proxy
+  dxy:
+    source: yahoo
+    source_id: "DX-Y.NYB"
+    frequency: daily
+    unit: index
+    publication_lag_days: 0
+    max_staleness_days: 4
+    critical: true
+    min_value: 40
+    max_value: 200
+    max_abs_daily_return: 0.15
+    description: US Dollar Index
+  us_2y:
+    source: fred
+    source_id: DGS2
+    frequency: daily
+    unit: percent
+    publication_lag_days: 1
+    max_staleness_days: 5
+    critical: true
+    min_value: -10
+    max_value: 30
+    description: US 2-year Treasury constant maturity rate
+  breakeven_5y:
+    source: fred
+    source_id: T5YIE
+    frequency: daily
+    unit: percent
+    publication_lag_days: 1
+    max_staleness_days: 5
+    critical: true
+    min_value: -5
+    max_value: 20
+    description: US 5-year breakeven inflation rate
+  crop_condition:
+    source: demo
+    source_id: crop_condition
+    frequency: weekly
+    unit: percent_good_excellent
+    publication_lag_days: 1
+    max_staleness_days: 10
+    critical: true
+    min_value: 0
+    max_value: 100
+    description: Composite US crop condition rating
+  yield_revision:
+    source: demo
+    source_id: yield_revision
+    frequency: monthly
+    unit: percent
+    publication_lag_days: 10
+    max_staleness_days: 45
+    critical: true
+    min_value: -50
+    max_value: 50
+    description: Point-in-time composite grain yield estimate revision
+  exporter_stocks_to_use:
+    source: demo
+    source_id: exporter_stocks_to_use
+    frequency: monthly
+    unit: percent
+    publication_lag_days: 10
+    max_staleness_days: 45
+    critical: true
+    min_value: 0
+    max_value: 200
+    description: Major-exporter stocks divided by domestic use plus exports
+  policy_stress:
+    source: demo
+    source_id: policy_stress
+    frequency: weekly
+    unit: score_0_100
+    publication_lag_days: 0
+    max_staleness_days: 10
+    critical: false
+    min_value: 0
+    max_value: 100
+    description: Trade-share-weighted government intervention stress
+  weather_stress:
+    source: demo
+    source_id: weather_stress
+    frequency: weekly
+    unit: score_0_100
+    publication_lag_days: 2
+    max_staleness_days: 10
+    critical: true
+    min_value: 0
+    max_value: 100
+    description: Crop-calendar-weighted climate stress composite

@@ -1,0 +1,59 @@
+{
+  "development_selected_model": "ridge_core",
+  "feature_groups": {
+    "core": [
+      "core__annual_sin",
+      "core__annual_cos",
+      "core__semiannual_sin",
+      "core__semiannual_cos",
+      "core__crop_year_fraction",
+      "core__momentum_5",
+      "core__momentum_20",
+      "core__momentum_60",
+      "core__momentum_120",
+      "core__realized_volatility_20",
+      "core__realized_volatility_60",
+      "core__ma_distance_20",
+      "core__ma_distance_60",
+      "core__cross_grain_momentum_20",
+      "core__cross_grain_momentum_60",
+      "core__relative_momentum_20",
+      "core__relative_momentum_60"
+    ],
+    "usda": [
+      "usda__us_production_revision",
+      "usda__us_yield_revision",
+      "usda__us_ending_stocks_revision",
+      "usda__world_production_revision",
+      "usda__world_ending_stocks_revision",
+      "usda__us_stocks_to_use_revision",
+      "usda__us_stocks_to_use",
+      "usda__days_since_usda_release"
+    ],
+    "weather": [
+      "weather__temperature_anomaly_14d",
+      "weather__precipitation_anomaly_30d",
+      "weather__heat_stress_days_14d",
+      "weather__growing_season_temperature_anomaly",
+      "weather__growing_season_precipitation_anomaly"
+    ]
+  },
+  "holdout_crop_years": {
+    "ZC": [
+      2022,
+      2023,
+      2024
+    ],
+    "ZS": [
+      2022,
+      2023,
+      2024
+    ],
+    "ZW": [
+      2023,
+      2024,
+      2025
+    ]
+  },
+  "selected_model": "ridge_core"
+}

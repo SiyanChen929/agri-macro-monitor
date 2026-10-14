@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agri-macro-monitor"
+version = "0.1.0"
+description = "Point-in-time agricultural macro regime monitor: USDA balance sheets, macro factors, regimes, and out-of-sample validation"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{name = "Siyan Chen", email = "siyan_chen@ucsb.edu"}]
+requires-python = ">=3.11"
+dependencies = [
+  "matplotlib>=3.9,<4",
+  "numpy>=1.26,<3",
+  "pandas>=2.2,<4",
+  "PyYAML>=6.0,<7",
+  "tabulate>=0.9,<1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4,<10"]
+
+[project.scripts]
+agri-macro = "agri_macro_quant.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+pythonpath = ["src"]
+testpaths = ["tests"]

@@ -1,0 +1,9 @@
+{
+  "conclusion": "exploratory_support_only",
+  "conclusion_text": "The predeclared checks are directionally positive, but this is not a validated predictive edge: vendor continuous proxies and non-vintage weather still require an untouched contract-level confirmation.",
+  "experiment_id": "zw_zc_zs_21d_v1",
+  "primary_selected_model": "ridge_core",
+  "raw_sensitivity_selected_model": "ridge_core",
+  "report": "reports/predictive_experiment_v1/report.md",
+  "status": "completed"
+}

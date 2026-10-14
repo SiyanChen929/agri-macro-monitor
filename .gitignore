@@ -1,0 +1,29 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.coverage
+.env
+
+# Data (fetched by scripts/download_data.py; never committed)
+data/raw/*
+data/processed/*
+data/cache/*
+data/predictive_experiment_v1/
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/cache/.gitkeep
+*.csv.gz
+*.parquet
+*.sqlite
+
+# Run outputs (curated results under reports/predictive_experiment_v1 and reports/demo_example are tracked)
+reports/run_*/
+reports/logs/
+reports/research_log.jsonl
+reports/*_2026*/

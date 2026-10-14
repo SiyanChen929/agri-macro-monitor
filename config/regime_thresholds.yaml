@@ -1,0 +1,51 @@
+# Transparent MVP scorer configuration. Keys intentionally match
+# `regimes.REGIME_NAMES` and `factors.MVP_FACTOR_COLUMNS` exactly.
+temperature: 1.0
+min_coverage: 0.35
+rescale_missing: true
+raw_clip: 12.0
+
+weights:
+  weather_crop_supply_shock:
+    crop_condition: -0.90
+    yield_revision: -1.00
+    weather_stress: 1.20
+    wheat_momentum: 0.25
+  inventory_food_security_stress:
+    exporter_stocks_to_use: -1.30
+    policy_stress: 0.35
+    weather_stress: 0.25
+    wheat_momentum: 0.65
+  government_trade_policy_amplification:
+    exporter_stocks_to_use: -0.40
+    policy_stress: 1.40
+    weather_stress: 0.25
+    wheat_momentum: 0.30
+  agricultural_input_expansion:
+    crop_condition: 0.20
+    yield_revision: 0.20
+    corn_urea: 1.20
+    us2y: -0.15
+    wheat_momentum: 0.45
+  food_inflation_transmission:
+    exporter_stocks_to_use: -0.25
+    policy_stress: 0.25
+    weather_stress: 0.20
+    breakeven: 0.80
+    wheat_momentum: 0.90
+  monetary_tightening_stagflation:
+    crop_condition: -0.20
+    dxy: 0.25
+    us2y: 0.95
+    breakeven: 0.95
+    wheat_momentum: 0.35
+  supply_response_mean_reversion:
+    crop_condition: 0.65
+    yield_revision: 0.85
+    exporter_stocks_to_use: 0.55
+    policy_stress: -0.30
+    weather_stress: -0.80
+    corn_urea: 0.65
+    wheat_momentum: -0.40
+
+intercepts: {}

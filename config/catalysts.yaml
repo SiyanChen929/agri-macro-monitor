@@ -1,0 +1,33 @@
+# This is a deterministic research fixture, not an official release calendar.
+# Live deployments should replace generated dates with verified agency calendars.
+calendar_type: deterministic_fixture
+business_day_adjustment: following
+
+recurring:
+  - event: WASDE release
+    cadence: monthly
+    day_of_month: 12
+    affected_regime: inventory_food_security_stress
+    expected_importance: high
+  - event: US CPI release
+    cadence: monthly
+    day_of_month: 15
+    affected_regime: food_inflation_transmission
+    expected_importance: high
+  - event: ENSO outlook update
+    cadence: monthly
+    day_of_month: 10
+    affected_regime: weather_crop_supply_shock
+    expected_importance: medium
+  - event: Crop progress update
+    cadence: weekly
+    weekday: Monday
+    active_months: [4, 5, 6, 7, 8, 9, 10, 11]
+    affected_regime: weather_crop_supply_shock
+    expected_importance: medium
+  - event: FOMC decision proxy
+    cadence: interval_days
+    anchor_date: "2026-01-28"
+    interval_days: 42
+    affected_regime: monetary_tightening_stagflation
+    expected_importance: high
